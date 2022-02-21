@@ -633,8 +633,7 @@ namespace REL
 			{
 				const auto [format] = a_in.read<std::int32_t>();
 				if (format !=
-					1
-				) {
+					1) {
 					stl::report_and_fail(
 						fmt::format(
 							"Unsupported address library format: {}\n"
