@@ -1,20 +1,13 @@
 cmake_minimum_required(VERSION 3.19)
 
 option(SKSE_SUPPORT_XBYAK "Enables trampoline support for Xbyak." OFF)
-option(BUILD_SKYRIMVR "Build for Skyrim VR" OFF)
+option(BUILD_SKYRIMVR "Build for Skyrim VR" ON)
 
-if (NOT BUILD_SKYRIMVR)
-	project(
-		CommonLibSSE
-		LANGUAGES CXX
-	)
-else()
-	project(
-		CommonLibVR
-		LANGUAGES CXX
-	)
-	add_compile_definitions(SKYRIMVR)
-endif()
+project(
+	CommonLibVR
+	LANGUAGES CXX
+)
+add_compile_definitions(SKYRIMVR)
 
 include(GNUInstallDirs)
 
@@ -77,6 +70,7 @@ if (MSVC)
 			/wd4623 # 'derived class' : default constructor was implicitly defined as deleted because a base class default constructor is inaccessible or deleted
 			/wd4625 # 'derived class' : copy constructor was implicitly defined as deleted because a base class copy constructor is inaccessible or deleted
 			/wd4626 # 'derived class' : assignment operator was implicitly defined as deleted because a base class assignment operator is inaccessible or deleted
+			/wd4996 # This function or variable may be unsafe. Consider using strncpy_s/fopen_s/strerror_s instead
 			/wd4710 # 'function' : function not inlined
 			/wd4711 # function 'function' selected for inline expansion
 			/wd4820 # 'bytes' bytes padding added after construct 'member_name'

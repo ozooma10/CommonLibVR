@@ -1,7 +1,5 @@
 #pragma once
-#ifdef SKYRIMVR
-#	include <csv.h>
-#endif
+#include <csv.h>
 #define REL_MAKE_MEMBER_FUNCTION_POD_TYPE_HELPER_IMPL(a_nopropQual, a_propQual, ...)              \
 	template <                                                                                    \
 		class R,                                                                                  \
@@ -454,11 +452,7 @@ namespace REL
 			if (const auto result = getFilename();
 				result != _filename.size() - 1 ||
 				result == 0) {
-#ifndef SKYRIMVR
-				_filename = L"SkyrimSE.exe"sv;
-#else
 				_filename = L"SkyrimVR.exe"sv;
-#endif
 			}
 
 			load();
@@ -639,11 +633,7 @@ namespace REL
 			{
 				const auto [format] = a_in.read<std::int32_t>();
 				if (format !=
-#if !defined(SKYRIMVR) && defined(AE)
-					2
-#else
 					1
-#endif
 				) {
 					stl::report_and_fail(
 						fmt::format(
@@ -690,23 +680,6 @@ namespace REL
 		void load()
 		{
 			const auto version = Module::get().version();
-#if !defined(SKYRIMVR) && defined(AE)
-			const auto filename =
-				stl::utf8_to_utf16(
-					fmt::format(
-						"Data/SKSE/Plugins/versionlib-{}.bin"sv,
-						version.string()))
-					.value_or(L"<unknown filename>"s);
-			load_file(filename, version);
-#elif !defined(SKYRIMVR)
-			const auto filename =
-				stl::utf8_to_utf16(
-					fmt::format(
-						"Data/SKSE/Plugins/version-{}.bin"sv,
-						version.string()))
-					.value_or(L"<unknown filename>"s);
-			load_file(filename, version);
-#else
 			const auto filename =
 				stl::utf8_to_utf16(
 					fmt::format(
@@ -714,10 +687,8 @@ namespace REL
 						version.string()))
 					.value_or(L"<unknown filename>"s);
 			load_csv(filename, version);
-#endif
 		}
 
-#ifdef SKYRIMVR
 		bool load_csv(stl::zwstring a_filename, Version a_version)
 		{
 			// conversion code from https://docs.microsoft.com/en-us/cpp/text/how-to-convert-between-various-string-types?view=msvc-170
@@ -760,7 +731,6 @@ namespace REL
 			//			_natvis = _id2offset.data();
 			return true;
 		}
-#endif
 		void load_file(stl::zwstring a_filename, Version a_version)
 		{
 			try {
