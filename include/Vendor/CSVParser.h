@@ -1,4 +1,4 @@
-#pragma warning(disable: 4083 244 267 458)
+#pragma once
 // Copyright: (2012-2015) Ben Strasser <code@ben-strasser.net>
 // License: BSD-3
 //
@@ -30,26 +30,23 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef CSV_H
-#	define CSV_H
-
-#	include <algorithm>
-#	include <cstdio>
-#	include <cstring>
-#	include <exception>
-#	include <string>
-#	include <utility>
-#	include <vector>
-#	ifndef CSV_IO_NO_THREAD
-#		include <condition_variable>
-#		include <mutex>
-#		include <thread>
-#	endif
-#	include <cassert>
-#	include <cerrno>
-#	include <istream>
-#	include <limits>
-#	include <memory>
+#include <algorithm>
+#include <cstdio>
+#include <cstring>
+#include <exception>
+#include <string>
+#include <utility>
+#include <vector>
+#ifndef CSV_IO_NO_THREAD
+#	include <condition_variable>
+#	include <mutex>
+#	include <thread>
+#endif
+#include <cassert>
+#include <cerrno>
+#include <istream>
+#include <limits>
+#include <memory>
 
 namespace io
 {
@@ -230,7 +227,7 @@ namespace io
 			long long   remaining_byte_count;
 		};
 
-#	ifndef CSV_IO_NO_THREAD
+#ifndef CSV_IO_NO_THREAD
 		class AsynchronousReader
 		{
 		public:
@@ -321,7 +318,7 @@ namespace io
 			std::condition_variable read_finished_condition;
 			std::condition_variable read_requested_condition;
 		};
-#	endif
+#endif
 
 		class SynchronousReader
 		{
@@ -359,11 +356,11 @@ namespace io
 	private:
 		static const int        block_len = 1 << 20;
 		std::unique_ptr<char[]> buffer;  // must be constructed before (and thus destructed after) the reader!
-#	ifdef CSV_IO_NO_THREAD
+#ifdef CSV_IO_NO_THREAD
 		detail::SynchronousReader reader;
-#	else
+#else
 		detail::AsynchronousReader reader;
-#	endif
+#endif
 		int data_begin;
 		int data_end;
 
@@ -1421,4 +1418,3 @@ namespace io
 		}
 	};
 }
-#endif
