@@ -1,4 +1,4 @@
-#pragma warning(disable: 4083 244 267 458)
+#pragma once
 // Copyright: (2012-2015) Ben Strasser <code@ben-strasser.net>
 // License: BSD-3
 //
@@ -29,9 +29,6 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-
-#ifndef CSV_H
-#	define CSV_H
 
 #	include <algorithm>
 #	include <cstdio>
@@ -1421,4 +1418,3 @@ namespace io
 		}
 	};
 }
-#endif

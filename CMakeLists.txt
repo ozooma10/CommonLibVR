@@ -132,5 +132,6 @@ install(
 		"include/RE"
 		"include/REL"
 		"include/SKSE"
+		"include/Vendor"
 	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 )
