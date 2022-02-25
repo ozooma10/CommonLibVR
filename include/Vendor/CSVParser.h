@@ -1,4 +1,4 @@
-#pragma once
+#pragma warning(disable: 4083 244 267 458)
 // Copyright: (2012-2015) Ben Strasser <code@ben-strasser.net>
 // License: BSD-3
 //
@@ -30,23 +30,26 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <algorithm>
-#include <cstdio>
-#include <cstring>
-#include <exception>
-#include <string>
-#include <utility>
-#include <vector>
-#ifndef CSV_IO_NO_THREAD
-#	include <condition_variable>
-#	include <mutex>
-#	include <thread>
-#endif
-#include <cassert>
-#include <cerrno>
-#include <istream>
-#include <limits>
-#include <memory>
+#ifndef CSV_H
+#	define CSV_H
+
+#	include <algorithm>
+#	include <cstdio>
+#	include <cstring>
+#	include <exception>
+#	include <string>
+#	include <utility>
+#	include <vector>
+#	ifndef CSV_IO_NO_THREAD
+#		include <condition_variable>
+#		include <mutex>
+#		include <thread>
+#	endif
+#	include <cassert>
+#	include <cerrno>
+#	include <istream>
+#	include <limits>
+#	include <memory>
 
 namespace io
 {
@@ -1418,3 +1421,4 @@ namespace io
 		}
 	};
 }
+#endif
