@@ -13,7 +13,7 @@ namespace RE
 		return *singleton;
 	}
 
-	void TES::ForEachReference(std::function<bool(TESObjectREFR& a_ref)> a_callback)
+	void TES::ForEachReference(std::function<BSContainer::ForEachResult(TESObjectREFR& a_ref)> a_callback)
 	{
 		if (interiorCell) {
 			interiorCell->ForEachReference([&](TESObjectREFR& a_ref) {
@@ -44,14 +44,13 @@ namespace RE
 		}
 	}
 
-	void TES::ForEachReferenceInRange(TESObjectREFR* a_origin, float a_radius, std::function<bool(TESObjectREFR& a_ref)> a_callback)
+	void TES::ForEachReferenceInRange(TESObjectREFR* a_origin, float a_radius, std::function<BSContainer::ForEachResult(TESObjectREFR& a_ref)> a_callback)
 	{
 		if (a_origin && a_radius > 0.0f) {
 			const auto originPos = a_origin->GetPosition();
-			const auto radiusSquared = a_radius * a_radius;
 
 			if (interiorCell) {
-				interiorCell->ForEachReferenceInRange(originPos, radiusSquared, [&](TESObjectREFR& a_ref) {
+				interiorCell->ForEachReferenceInRange(originPos, a_radius, [&](TESObjectREFR& a_ref) {
 					return a_callback(a_ref);
 				});
 			} else {
@@ -71,7 +70,7 @@ namespace RE
 								if (cellCoords) {
 									const NiPoint2 worldPos{ cellCoords->worldX, cellCoords->worldY };
 									if (worldPos.x < xPlus && (worldPos.x + 4096.0f) > xMinus && worldPos.y < yPlus && (worldPos.y + 4096.0f) > yMinus) {
-										cell->ForEachReferenceInRange(originPos, radiusSquared, [&](TESObjectREFR& a_ref) {
+										cell->ForEachReferenceInRange(originPos, a_radius, [&](TESObjectREFR& a_ref) {
 											return a_callback(a_ref);
 										});
 									}
@@ -85,7 +84,7 @@ namespace RE
 			}
 
 			if (const auto skyCell = worldSpace ? worldSpace->GetSkyCell() : nullptr; skyCell) {
-				skyCell->ForEachReferenceInRange(originPos, radiusSquared, [&](TESObjectREFR& a_ref) {
+				skyCell->ForEachReferenceInRange(originPos, a_radius, [&](TESObjectREFR& a_ref) {
 					return a_callback(a_ref);
 				});
 			}
